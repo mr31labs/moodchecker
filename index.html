@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MoodChecker - Daily Mental Wellness Check-In</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Disclaimer Banner -->
+        <div id="disclaimer-banner" class="disclaimer-banner">
+            <div class="disclaimer-content">
+                <div class="disclaimer-icon">&#9432;</div>
+                <div>
+                    <strong>Important Notice</strong>
+                    <p>This tool is for informational and educational purposes only. It is <strong>not</strong> a diagnostic instrument and does not constitute medical advice, diagnosis, or treatment. It is not intended to be a substitute for professional medical advice, diagnosis, or treatment from a qualified healthcare provider. If you are experiencing a mental health crisis, please contact emergency services or a crisis helpline immediately.</p>
+                    <p class="disclaimer-sources">Based on validated scales: WHO-5 Well-Being Index (WHO, 1998), PHQ-2 (Kroenke et al., 2003), and GAD-2 (Kroenke et al., 2007).</p>
+                </div>
+            </div>
+            <!-- Brain SVG illustration -->
+            <div class="brain-svg">
+                <svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg" aria-label="Brain illustration">
+                    <defs>
+                        <linearGradient id="brainGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#A78BDB;stop-opacity:0.7"/>
+                            <stop offset="50%" style="stop-color:#6B9BD2;stop-opacity:0.7"/>
+                            <stop offset="100%" style="stop-color:#6DBF8B;stop-opacity:0.7"/>
+                        </linearGradient>
+                    </defs>
+                    <!-- Left hemisphere -->
+                    <path d="M98 145 C98 145 40 140 30 110 C20 80 30 65 40 55 C50 45 45 30 55 22 C65 14 80 18 85 25 C90 15 95 10 100 15" fill="none" stroke="url(#brainGrad)" stroke-width="3" stroke-linecap="round"/>
+                    <!-- Right hemisphere -->
+                    <path d="M102 145 C102 145 160 140 170 110 C180 80 170 65 160 55 C150 45 155 30 145 22 C135 14 120 18 115 25 C110 15 105 10 100 15" fill="none" stroke="url(#brainGrad)" stroke-width="3" stroke-linecap="round"/>
+                    <!-- Centre line -->
+                    <path d="M100 15 L100 145" fill="none" stroke="url(#brainGrad)" stroke-width="2" stroke-dasharray="4 3" opacity="0.5"/>
+                    <!-- Left folds -->
+                    <path d="M50 55 C60 60 75 50 85 58" fill="none" stroke="url(#brainGrad)" stroke-width="2.5" stroke-linecap="round"/>
+                    <path d="M38 80 C55 85 70 72 90 80" fill="none" stroke="url(#brainGrad)" stroke-width="2.5" stroke-linecap="round"/>
+                    <path d="M35 105 C50 108 70 95 95 105" fill="none" stroke="url(#brainGrad)" stroke-width="2.5" stroke-linecap="round"/>
+                    <path d="M60 38 C68 42 78 35 90 40" fill="none" stroke="url(#brainGrad)" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+                    <!-- Right folds -->
+                    <path d="M150 55 C140 60 125 50 115 58" fill="none" stroke="url(#brainGrad)" stroke-width="2.5" stroke-linecap="round"/>
+                    <path d="M162 80 C145 85 130 72 110 80" fill="none" stroke="url(#brainGrad)" stroke-width="2.5" stroke-linecap="round"/>
+                    <path d="M165 105 C150 108 130 95 105 105" fill="none" stroke="url(#brainGrad)" stroke-width="2.5" stroke-linecap="round"/>
+                    <path d="M140 38 C132 42 122 35 110 40" fill="none" stroke="url(#brainGrad)" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+                    <!-- Brain stem -->
+                    <path d="M92 145 C92 160 95 170 100 175 C105 170 108 160 108 145" fill="none" stroke="url(#brainGrad)" stroke-width="2.5" stroke-linecap="round"/>
+                    <!-- Subtle glow dots for neural activity -->
+                    <circle cx="65" cy="45" r="2.5" fill="#A78BDB" opacity="0.4"/>
+                    <circle cx="135" cy="45" r="2.5" fill="#6DBF8B" opacity="0.4"/>
+                    <circle cx="55" cy="90" r="2" fill="#6B9BD2" opacity="0.35"/>
+                    <circle cx="145" cy="90" r="2" fill="#A78BDB" opacity="0.35"/>
+                    <circle cx="80" cy="70" r="2" fill="#6DBF8B" opacity="0.3"/>
+                    <circle cx="120" cy="70" r="2" fill="#6B9BD2" opacity="0.3"/>
+                </svg>
+            </div>
+
+            <button id="accept-disclaimer" class="btn-accept">I Understand</button>
+        </div>
+
+        <!-- Main App -->
+        <div id="main-app" class="main-app hidden">
+            <header>
+                <h1>MoodChecker</h1>
+                <p class="subtitle">Daily Mental Wellness Check-In</p>
+                <p class="date" id="current-date"></p>
+            </header>
+
+            <!-- Progress Bar -->
+            <div class="progress-container">
+                <div class="progress-bar" id="progress-bar"></div>
+                <span class="progress-text" id="progress-text">Section 1 of 3</span>
+            </div>
+
+            <!-- Section 1: WHO-5 Well-Being Index -->
+            <section id="section-wellbeing" class="section active">
+                <div class="section-header">
+                    <span class="section-badge badge-wellbeing">Well-Being</span>
+                    <h2>WHO-5 Well-Being Index</h2>
+                    <p class="section-desc">Over the <strong>last two weeks</strong>, how often have you experienced the following?</p>
+                    <p class="section-citation">Topp, C.W. et al. (2015). <em>Psychotherapy and Psychosomatics</em>, 84(3), 167-176.</p>
+                </div>
+
+                <div class="question-card" data-section="who5" data-index="0">
+                    <p class="question-number">Q1 of 5</p>
+                    <p class="question-text">I have felt cheerful and in good spirits</p>
+                    <div class="options-grid">
+                        <label class="option-label"><input type="radio" name="who5_0" value="5"><span class="option-btn">All of the time</span></label>
+                        <label class="option-label"><input type="radio" name="who5_0" value="4"><span class="option-btn">Most of the time</span></label>
+                        <label class="option-label"><input type="radio" name="who5_0" value="3"><span class="option-btn">More than half the time</span></label>
+                        <label class="option-label"><input type="radio" name="who5_0" value="2"><span class="option-btn">Less than half the time</span></label>
+                        <label class="option-label"><input type="radio" name="who5_0" value="1"><span class="option-btn">Some of the time</span></label>
+                        <label class="option-label"><input type="radio" name="who5_0" value="0"><span class="option-btn">At no time</span></label>
+                    </div>
+                </div>
+
+                <div class="question-card" data-section="who5" data-index="1">
+                    <p class="question-number">Q2 of 5</p>
+                    <p class="question-text">I have felt calm and relaxed</p>
+                    <div class="options-grid">
+                        <label class="option-label"><input type="radio" name="who5_1" value="5"><span class="option-btn">All of the time</span></label>
+                        <label class="option-label"><input type="radio" name="who5_1" value="4"><span class="option-btn">Most of the time</span></label>
+                        <label class="option-label"><input type="radio" name="who5_1" value="3"><span class="option-btn">More than half the time</span></label>
+                        <label class="option-label"><input type="radio" name="who5_1" value="2"><span class="option-btn">Less than half the time</span></label>
+                        <label class="option-label"><input type="radio" name="who5_1" value="1"><span class="option-btn">Some of the time</span></label>
+                        <label class="option-label"><input type="radio" name="who5_1" value="0"><span class="option-btn">At no time</span></label>
+                    </div>
+                </div>
+
+                <div class="question-card" data-section="who5" data-index="2">
+                    <p class="question-number">Q3 of 5</p>
+                    <p class="question-text">I have felt active and vigorous</p>
+                    <div class="options-grid">
+                        <label class="option-label"><input type="radio" name="who5_2" value="5"><span class="option-btn">All of the time</span></label>
+                        <label class="option-label"><input type="radio" name="who5_2" value="4"><span class="option-btn">Most of the time</span></label>
+                        <label class="option-label"><input type="radio" name="who5_2" value="3"><span class="option-btn">More than half the time</span></label>
+                        <label class="option-label"><input type="radio" name="who5_2" value="2"><span class="option-btn">Less than half the time</span></label>
+                        <label class="option-label"><input type="radio" name="who5_2" value="1"><span class="option-btn">Some of the time</span></label>
+                        <label class="option-label"><input type="radio" name="who5_2" value="0"><span class="option-btn">At no time</span></label>
+                    </div>
+                </div>
+
+                <div class="question-card" data-section="who5" data-index="3">
+                    <p class="question-number">Q4 of 5</p>
+                    <p class="question-text">I woke up feeling fresh and rested</p>
+                    <div class="options-grid">
+                        <label class="option-label"><input type="radio" name="who5_3" value="5"><span class="option-btn">All of the time</span></label>
+                        <label class="option-label"><input type="radio" name="who5_3" value="4"><span class="option-btn">Most of the time</span></label>
+                        <label class="option-label"><input type="radio" name="who5_3" value="3"><span class="option-btn">More than half the time</span></label>
+                        <label class="option-label"><input type="radio" name="who5_3" value="2"><span class="option-btn">Less than half the time</span></label>
+                        <label class="option-label"><input type="radio" name="who5_3" value="1"><span class="option-btn">Some of the time</span></label>
+                        <label class="option-label"><input type="radio" name="who5_3" value="0"><span class="option-btn">At no time</span></label>
+                    </div>
+                </div>
+
+                <div class="question-card" data-section="who5" data-index="4">
+                    <p class="question-number">Q5 of 5</p>
+                    <p class="question-text">My daily life has been filled with things that interest me</p>
+                    <div class="options-grid">
+                        <label class="option-label"><input type="radio" name="who5_4" value="5"><span class="option-btn">All of the time</span></label>
+                        <label class="option-label"><input type="radio" name="who5_4" value="4"><span class="option-btn">Most of the time</span></label>
+                        <label class="option-label"><input type="radio" name="who5_4" value="3"><span class="option-btn">More than half the time</span></label>
+                        <label class="option-label"><input type="radio" name="who5_4" value="2"><span class="option-btn">Less than half the time</span></label>
+                        <label class="option-label"><input type="radio" name="who5_4" value="1"><span class="option-btn">Some of the time</span></label>
+                        <label class="option-label"><input type="radio" name="who5_4" value="0"><span class="option-btn">At no time</span></label>
+                    </div>
+                </div>
+
+                <button class="btn-next" id="btn-next-1" disabled>Continue to Mood Assessment</button>
+            </section>
+
+            <!-- Section 2: PHQ-2 Depression Screening -->
+            <section id="section-mood" class="section">
+                <div class="section-header">
+                    <span class="section-badge badge-mood">Mood</span>
+                    <h2>PHQ-2 Depression Screening</h2>
+                    <p class="section-desc">Over the <strong>last two weeks</strong>, how often have you been bothered by the following?</p>
+                    <p class="section-citation">Kroenke, K., Spitzer, R.L. &amp; Williams, J.B.W. (2003). <em>Medical Care</em>, 41(11), 1284-1292.</p>
+                </div>
+
+                <div class="question-card" data-section="phq2" data-index="0">
+                    <p class="question-number">Q1 of 2</p>
+                    <p class="question-text">Little interest or pleasure in doing things</p>
+                    <div class="options-grid options-4">
+                        <label class="option-label"><input type="radio" name="phq2_0" value="0"><span class="option-btn">Not at all</span></label>
+                        <label class="option-label"><input type="radio" name="phq2_0" value="1"><span class="option-btn">Several days</span></label>
+                        <label class="option-label"><input type="radio" name="phq2_0" value="2"><span class="option-btn">More than half the days</span></label>
+                        <label class="option-label"><input type="radio" name="phq2_0" value="3"><span class="option-btn">Nearly every day</span></label>
+                    </div>
+                </div>
+
+                <div class="question-card" data-section="phq2" data-index="1">
+                    <p class="question-number">Q2 of 2</p>
+                    <p class="question-text">Feeling down, depressed, or hopeless</p>
+                    <div class="options-grid options-4">
+                        <label class="option-label"><input type="radio" name="phq2_1" value="0"><span class="option-btn">Not at all</span></label>
+                        <label class="option-label"><input type="radio" name="phq2_1" value="1"><span class="option-btn">Several days</span></label>
+                        <label class="option-label"><input type="radio" name="phq2_1" value="2"><span class="option-btn">More than half the days</span></label>
+                        <label class="option-label"><input type="radio" name="phq2_1" value="3"><span class="option-btn">Nearly every day</span></label>
+                    </div>
+                </div>
+
+                <button class="btn-next" id="btn-next-2" disabled>Continue to Anxiety Assessment</button>
+            </section>
+
+            <!-- Section 3: GAD-2 Anxiety Screening -->
+            <section id="section-anxiety" class="section">
+                <div class="section-header">
+                    <span class="section-badge badge-anxiety">Anxiety</span>
+                    <h2>GAD-2 Anxiety Screening</h2>
+                    <p class="section-desc">Over the <strong>last two weeks</strong>, how often have you been bothered by the following?</p>
+                    <p class="section-citation">Kroenke, K. et al. (2007). <em>Annals of Internal Medicine</em>, 146(5), 317-325.</p>
+                </div>
+
+                <div class="question-card" data-section="gad2" data-index="0">
+                    <p class="question-number">Q1 of 2</p>
+                    <p class="question-text">Feeling nervous, anxious, or on edge</p>
+                    <div class="options-grid options-4">
+                        <label class="option-label"><input type="radio" name="gad2_0" value="0"><span class="option-btn">Not at all</span></label>
+                        <label class="option-label"><input type="radio" name="gad2_0" value="1"><span class="option-btn">Several days</span></label>
+                        <label class="option-label"><input type="radio" name="gad2_0" value="2"><span class="option-btn">More than half the days</span></label>
+                        <label class="option-label"><input type="radio" name="gad2_0" value="3"><span class="option-btn">Nearly every day</span></label>
+                    </div>
+                </div>
+
+                <div class="question-card" data-section="gad2" data-index="1">
+                    <p class="question-number">Q2 of 2</p>
+                    <p class="question-text">Not being able to stop or control worrying</p>
+                    <div class="options-grid options-4">
+                        <label class="option-label"><input type="radio" name="gad2_1" value="0"><span class="option-btn">Not at all</span></label>
+                        <label class="option-label"><input type="radio" name="gad2_1" value="1"><span class="option-btn">Several days</span></label>
+                        <label class="option-label"><input type="radio" name="gad2_1" value="2"><span class="option-btn">More than half the days</span></label>
+                        <label class="option-label"><input type="radio" name="gad2_1" value="3"><span class="option-btn">Nearly every day</span></label>
+                    </div>
+                </div>
+
+                <!-- Optional Reflection -->
+                <div class="reflection-card">
+                    <h3>Optional Reflection</h3>
+                    <p class="reflection-desc">If you'd like, take a moment to write about how you've been feeling. This is your private space for self-reflection.</p>
+                    <textarea id="reflection-text" placeholder="How have you been feeling lately? Is there anything on your mind you'd like to note down..." rows="5"></textarea>
+                </div>
+
+                <button class="btn-submit" id="btn-submit" disabled>View My Results</button>
+            </section>
+
+            <!-- Results Section -->
+            <section id="section-results" class="section">
+                <!-- Download Prompt Banner -->
+                <div id="download-prompt" class="download-prompt hidden">
+                    <div class="download-prompt-icon">&#128196;</div>
+                    <div class="download-prompt-text">
+                        <strong>Save your results?</strong>
+                        <p>This app does not store any data. If you do not download your results now, they will be permanently lost when you leave or refresh this page.</p>
+                    </div>
+                    <div class="download-prompt-actions">
+                        <button id="btn-download-md" class="btn-download">Download as Markdown</button>
+                        <button id="btn-dismiss-download" class="btn-dismiss">No thanks</button>
+                    </div>
+                </div>
+
+                <div class="results-container">
+                    <h2>Your Check-In Results</h2>
+                    <p class="results-date" id="results-date"></p>
+
+                    <div class="results-grid">
+                        <!-- Well-Being Card -->
+                        <div class="result-card" id="result-wellbeing">
+                            <div class="result-header">
+                                <span class="section-badge badge-wellbeing">Well-Being</span>
+                                <span class="result-scale">WHO-5</span>
+                            </div>
+                            <div class="score-circle" id="score-who5">
+                                <svg viewBox="0 0 120 120">
+                                    <circle class="score-bg" cx="60" cy="60" r="54"/>
+                                    <circle class="score-fill" cx="60" cy="60" r="54" id="circle-who5"/>
+                                </svg>
+                                <span class="score-value" id="value-who5">--</span>
+                                <span class="score-max">/100</span>
+                            </div>
+                            <p class="result-label" id="label-who5"></p>
+                            <p class="result-detail" id="detail-who5"></p>
+                        </div>
+
+                        <!-- Mood Card -->
+                        <div class="result-card" id="result-mood">
+                            <div class="result-header">
+                                <span class="section-badge badge-mood">Mood</span>
+                                <span class="result-scale">PHQ-2</span>
+                            </div>
+                            <div class="score-circle" id="score-phq2">
+                                <svg viewBox="0 0 120 120">
+                                    <circle class="score-bg" cx="60" cy="60" r="54"/>
+                                    <circle class="score-fill" cx="60" cy="60" r="54" id="circle-phq2"/>
+                                </svg>
+                                <span class="score-value" id="value-phq2">--</span>
+                                <span class="score-max">/6</span>
+                            </div>
+                            <p class="result-label" id="label-phq2"></p>
+                            <p class="result-detail" id="detail-phq2"></p>
+                        </div>
+
+                        <!-- Anxiety Card -->
+                        <div class="result-card" id="result-anxiety">
+                            <div class="result-header">
+                                <span class="section-badge badge-anxiety">Anxiety</span>
+                                <span class="result-scale">GAD-2</span>
+                            </div>
+                            <div class="score-circle" id="score-gad2">
+                                <svg viewBox="0 0 120 120">
+                                    <circle class="score-bg" cx="60" cy="60" r="54"/>
+                                    <circle class="score-fill" cx="60" cy="60" r="54" id="circle-gad2"/>
+                                </svg>
+                                <span class="score-value" id="value-gad2">--</span>
+                                <span class="score-max">/6</span>
+                            </div>
+                            <p class="result-label" id="label-gad2"></p>
+                            <p class="result-detail" id="detail-gad2"></p>
+                        </div>
+                    </div>
+
+                    <!-- Advice Section -->
+                    <div class="advice-section" id="advice-section">
+                        <h3>Personalised Suggestions</h3>
+                        <div id="advice-list"></div>
+                    </div>
+
+                    <!-- Reflection Display -->
+                    <div class="reflection-display hidden" id="reflection-display">
+                        <h3>Your Reflection</h3>
+                        <p id="reflection-output"></p>
+                    </div>
+
+                    <!-- Crisis Resources -->
+                    <div class="crisis-box" id="crisis-box">
+                        <h3>Need immediate support?</h3>
+                        <ul>
+                            <li><strong>Emergency:</strong> Call 999 (UK) / 911 (US) / 112 (EU) / 000 (AU) / 111 (NZ)</li>
+                            <li><strong>Samaritans (UK):</strong> 116 123 (free, 24/7)</li>
+                            <li><strong>988 Suicide &amp; Crisis Lifeline (US):</strong> Call or text 988</li>
+                            <li><strong>Crisis Text Line:</strong> Text HOME to 741741</li>
+                            <li><strong>Lifeline (Australia):</strong> 13 11 14 (24/7)</li>
+                            <li><strong>Beyond Blue (Australia):</strong> 1300 22 4636</li>
+                            <li><strong>Need to Talk? (New Zealand):</strong> 1737 (free, 24/7)</li>
+                            <li><strong>Lifeline (New Zealand):</strong> 0800 543 354</li>
+                        </ul>
+                    </div>
+
+                    <!-- Full Disclaimer -->
+                    <div class="full-disclaimer">
+                        <h3>Disclaimer</h3>
+                        <p>This application is designed solely for informational and educational purposes. The content provided, including questionnaire results and suggestions, does <strong>not</strong> constitute medical advice, psychological counselling, diagnosis, or treatment of any mental health condition.</p>
+                        <p>This tool uses validated screening instruments (WHO-5, PHQ-2, GAD-2) for self-assessment purposes only. These instruments are designed as initial screening tools and are <strong>not</strong> diagnostic. A positive screening result does not mean you have a clinical condition, and a negative result does not rule one out.</p>
+                        <p><strong>This application does not establish and is not intended to establish a therapist-patient, doctor-patient, or any other professional-client relationship.</strong> It does not replace, and is not a substitute for, the advice, diagnosis, or treatment provided by a licensed and registered mental health professional or healthcare provider.</p>
+                        <p>Always seek the advice of a qualified mental health professional or other qualified healthcare provider with any questions you may have regarding a mental health condition. Never disregard professional medical or psychological advice, or delay in seeking it, because of information obtained from this application.</p>
+                        <p>If you are in crisis or believe you or someone else may be in danger, please contact emergency services or a crisis helpline immediately. Your use of this application is entirely at your own risk.</p>
+                        <p class="disclaimer-refs"><strong>References:</strong> Topp, C.W. et al. (2015). <em>Psychotherapy and Psychosomatics</em>, 84(3), 167-176. | Kroenke, K. et al. (2003). <em>Medical Care</em>, 41(11), 1284-1292. | Kroenke, K. et al. (2007). <em>Annals of Internal Medicine</em>, 146(5), 317-325. | Lowe, B. et al. (2010). <em>Journal of Affective Disorders</em>, 122(1-2), 86-95.</p>
+                    </div>
+
+                    <button class="btn-restart" id="btn-restart">Start a New Check-In</button>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
